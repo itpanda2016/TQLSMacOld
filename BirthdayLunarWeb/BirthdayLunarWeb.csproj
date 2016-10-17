@@ -39,10 +39,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Common\bin\Release\Common.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -159,6 +155,10 @@
     <ProjectReference Include="..\BLLs\BLL.QYH.csproj">
       <Project>{28f176b4-66d1-4efd-a636-73669d9a358f}</Project>
       <Name>BLL.QYH</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common\Common.csproj">
+      <Project>{12a0a7ce-a424-4553-99d0-527fccfdaa46}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Model.QYH.csproj">
       <Project>{2a6942d6-31bf-4d39-a3ac-d7ff64b7e73a}</Project>
