@@ -1,0 +1,10 @@
+获取返回流的直接读取内容：
+{"access_token":"Ur1hguo6eKgwVgtjAuccOyX8wq0vFFxqCbj6JGJjjCFdlIDInzLzPrAX8DWwhwy1","expires_in":7200}
+获取返回流转换为字符串后的内容：
+{"access_token":"Ur1hguo6eKgwVgtjAuccOyX8wq0vFFxqCbj6JGJjjCFdlIDInzLzPrAX8DWwhwy1","expires_in":7200}
+获取返回流转换为字符串后的内容：
+{"access_token":"Ur1hguo6eKgwVgtjAuccOyX8wq0vFFxqCbj6JGJjjCFdlIDInzLzPrAX8DWwhwy1","expires_in":7200}
+获取返回流转换为字符串后的内容：
+{"access_token":"Ur1hguo6eKgwVgtjAuccOyX8wq0vFFxqCbj6JGJjjCFdlIDInzLzPrAX8DWwhwy1","expires_in":7200}
+qyhToken对象的属性：
+Ur1hguo6eKgwVgtjAuccOyX8wq0vFFxqCbj6JGJjjCFdlIDInzLzPrAX8DWwhwy1
