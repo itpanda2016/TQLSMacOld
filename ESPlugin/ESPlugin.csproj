@@ -75,6 +75,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common\Common.csproj">
+      <Project>{12a0a7ce-a424-4553-99d0-527fccfdaa46}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SAPBusinessOne\SAPBusinessOne.csproj">
       <Project>{307c526f-6a01-4696-ad4d-95dc1ee93665}</Project>
       <Name>SAPBusinessOne</Name>

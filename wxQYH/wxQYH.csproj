@@ -51,6 +51,10 @@
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common\Common.csproj">
+      <Project>{12a0a7ce-a424-4553-99d0-527fccfdaa46}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Model.QYH.csproj">
       <Project>{2a6942d6-31bf-4d39-a3ac-d7ff64b7e73a}</Project>
       <Name>Model.QYH</Name>

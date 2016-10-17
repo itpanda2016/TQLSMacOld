@@ -47,8 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -80,10 +81,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common\Common.csproj">
-      <Project>{12a0a7ce-a424-4553-99d0-527fccfdaa46}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BirthdayLunarWeb\BirthdayLunarWeb.csproj">
       <Project>{477387eb-96e1-412d-994f-e4b95b023dd9}</Project>
       <Name>BirthdayLunarWeb</Name>
@@ -91,6 +88,10 @@
     <ProjectReference Include="..\BLLs\BLL.QYH.csproj">
       <Project>{28f176b4-66d1-4efd-a636-73669d9a358f}</Project>
       <Name>BLL.QYH</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common\Common.csproj">
+      <Project>{12a0a7ce-a424-4553-99d0-527fccfdaa46}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Model.QYH.csproj">
       <Project>{2a6942d6-31bf-4d39-a3ac-d7ff64b7e73a}</Project>
@@ -130,6 +131,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

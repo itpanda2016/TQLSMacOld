@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wxQYH", "wxQYH\wxQYH.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPBusinessOne", "SAPBusinessOne\SAPBusinessOne.csproj", "{307C526F-6A01-4696-AD4D-95DC1EE93665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common\Common.csproj", "{12A0A7CE-A424-4553-99D0-527FCCFDAA46}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirthdayLunar", "BirthdayLunar\BirthdayLunar.csproj", "{96B54E8E-D3BF-4BF0-811E-E7F878607381}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirthdayLunarWeb", "BirthdayLunarWeb\BirthdayLunarWeb.csproj", "{477387EB-96E1-412D-994F-E4B95B023DD9}"
@@ -20,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL.QYH", "BLLs\BLL.QYH.csproj", "{28F176B4-66D1-4EFD-A636-73669D9A358F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhaoPin", "ZhaoPin\ZhaoPin.csproj", "{A168C61A-EC33-41BA-B2DE-45FAC113D39B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common\Common.csproj", "{12A0A7CE-A424-4553-99D0-527FCCFDAA46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{307C526F-6A01-4696-AD4D-95DC1EE93665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{307C526F-6A01-4696-AD4D-95DC1EE93665}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{307C526F-6A01-4696-AD4D-95DC1EE93665}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96B54E8E-D3BF-4BF0-811E-E7F878607381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96B54E8E-D3BF-4BF0-811E-E7F878607381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96B54E8E-D3BF-4BF0-811E-E7F878607381}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{A168C61A-EC33-41BA-B2DE-45FAC113D39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A168C61A-EC33-41BA-B2DE-45FAC113D39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A168C61A-EC33-41BA-B2DE-45FAC113D39B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A0A7CE-A424-4553-99D0-527FCCFDAA46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

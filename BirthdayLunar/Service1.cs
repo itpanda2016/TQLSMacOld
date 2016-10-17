@@ -44,7 +44,7 @@ namespace BirthdayLunar {
         /// <param name="m">分钟</param>
         private void SetTimer(Int32 minitue) {
             // Create a timer with a two second interval.
-            double interval = m * 60 * 1000;
+            double interval = minitue * 60 * 1000;
             aTimer = new System.Timers.Timer(interval);
             // Hook up the Elapsed event for the timer. 
             aTimer.Elapsed += OnTimedEvent;
