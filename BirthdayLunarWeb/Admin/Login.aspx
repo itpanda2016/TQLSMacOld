@@ -17,7 +17,7 @@
         
         <div class="form-group">
             <label for="loginPassword">输入口令</label>
-            <input class="form-control" id="loginPassword" type="password" name="loginPassword" value="" />
+            <input class="form-control" id="loginPassword" type="password" name="loginPassword" value="tqls" />
         </div>
         <input class="form-control btn btn-success" type="submit" id="btnLogin" value="确定" />
         <br />

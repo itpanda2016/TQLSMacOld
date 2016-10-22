@@ -24,8 +24,8 @@ namespace BirthdayLunar {
         }
 
         protected override void OnStart(string[] args) {
-            //每隔5分钟检查一次
-            SetTimer(20);
+            //每隔25分钟检查一次
+            SetTimer(2);
             txtLog.Info("\nPress the Enter key to exit the application...\n");
             txtLog.Info(string.Format("The application started at {0:HH:mm:ss.fff}", DateTime.Now));
             //Console.ReadLine();
@@ -63,15 +63,15 @@ namespace BirthdayLunar {
             Auths.Access_Token qyh = new Auths.Access_Token();
             string CorpID = ConfigurationManager.AppSettings["qyhCorpId"];
             string Secret = ConfigurationManager.AppSettings["qyhSecret"];
-            //判断当前时间是否为设置的发送时间范围
-            //如果没设置，则默认为早上9点
+            //判断当前时间是否为设置的发送时间范围bll.SiteConfig.GetSendTime();
+            txtLog.Info("如果没设置，则默认为早上9点");
             int sendHour = bll.SiteConfig.GetSendTime();
             if (sendHour < 0) sendHour = 9;
             if (sendHour != DateTime.Now.Hour) {
-                txtLog.Info("不在消息发送的时间范围内：" + DateTime.Now.Hour);
+                txtLog.Info(sendHour + "不在消息发送的时间范围内：" + DateTime.Now.Hour);
                 return;
             }
-            //判断当天（国历）是否已发送了
+            txtLog.Info("判断当天（国历）是否已发送了");
             if (bll.Log.CheckHasSend(DateTime.Now)) {
                 txtLog.Info("今天已发过了，不再发送。");
                 return;
@@ -82,24 +82,37 @@ namespace BirthdayLunar {
                 txtLog.Info("获取Access_token出错。");
                 return;
             }
+            txtLog.Info("获取Token:" + qyh.access_token);
             //获取，并判断生日
             string strUserList = bllQYH.User.GetUserList(qyh.access_token, 33);
-            DateTime lunarDate = Utility.LunarDate(DateTime.Now);
+            string lunarDate = Utility.LunarDate(DateTime.Now).ToString("yyyy-MM-dd");
+            txtLog.Info("当天对应的农历日期：" + lunarDate);
             QYHUserListMore userlist = JsonConvert.DeserializeObject<QYHUserListMore>(strUserList);
             if (userlist.errcode > 0) {
                 txtLog.Info(DateTime.Now.ToString());
                 txtLog.Info("获取用户列表出错");
+                txtLog.Info(userlist.errcode.ToString());
+                txtLog.Info(userlist.errmsg);
                 return;
             }
+            txtLog.Info("用户数量：" + userlist.userlist.Count);
             List<string> listUserBirthdayLunar = new List<string>();   //当天农历生日的用户
             foreach (var item in userlist.userlist) {
+                //txtLog.Info("开始判断扩展字段是否为空。");
                 if (item.extattr != null) {
+                    //txtLog.Info("不为空的用户才会继续判断生日字段：");
                     foreach (var item2 in item.extattr.attrs) {
+                        //txtLog.Info("准备开始判断不为空的生日用户。");
                         if (item2.Name == "生日" && item2.Value != "") {
-                            txtLog.Info("有生日用户：" + item.Name + "，生日：" + item2.Value);
-                            DateTime userBirthday = Convert.ToDateTime(item2.Value);
-                            //判断是否当天生日
-                            if (lunarDate.Month == userBirthday.Month && lunarDate.Day == userBirthday.Day) {
+                            //txtLog.Info("如果生日字段存在并且不为空。");
+                            //txtLog.Info("有生日用户：" + item.Name + "，生日：" + item2.Value);
+                            //DateTime userBirthday = Convert.ToDateTime(item2.Value);
+                            //txtLog.Info("对应日期格式值：" + userBirthday.ToString());
+                            //if (userBirthday != null && lunarDate.Month == userBirthday.Month && lunarDate.Day == userBirthday.Day) {
+                            if(lunarDate.Remove(0,5) == item2.Value.Remove(0, 5)) {
+                                //txtLog.Info(lunarDate.Remove(0, 5) + "|" + item2.Value.Remove(0, 5));
+                                //if(item2.Value.Remove(0,5))
+                                txtLog.Info("当天生日用户：" + item.UserId);
                                 listUserBirthdayLunar.Add(item.UserId);
                                 continue;
                             }
@@ -107,7 +120,7 @@ namespace BirthdayLunar {
                     }
                 }
             }
-            txtLog.Info("当天过生日用户：" + listUserBirthdayLunar.Count);
+            txtLog.Info("当天过生日用户数量：" + listUserBirthdayLunar.Count);
             if(listUserBirthdayLunar.Count == 0) {
                 txtLog.Info("今天没有过生日的用户：" + Utility.LunarDate(DateTime.Now));
                 return;
@@ -118,16 +131,19 @@ namespace BirthdayLunar {
                 DataTable dt = bll.Rule.GetRuleList();
                 //准备发送消息的字典
                 txtLog.Info("准备发送消息的字典");
-                Dictionary<int, MessageVideo> tmpSendList = new Dictionary<int, MessageVideo>();
+                //Dictionary<int, MessageVideo> tmpSendList = new Dictionary<int, MessageVideo>();
+                Dictionary<int, MPNewsSendByMediaID> tmpSendList = new Dictionary<int, MPNewsSendByMediaID>();
                 if (dt.Rows.Count > 0) {
                     for (int i = 0; i < dt.Rows.Count; i++) {
                         txtLog.Info("第" + i + "次循环数据库记录开始。");
-                        MessageVideo tmpVideoMessage = new MessageVideo();
-                        MessageVideoChild tmpVideoChild = new MessageVideoChild();
-                        tmpVideoChild.media_id = dt.Rows[i]["msgvalue"].ToString();
-                        tmpVideoChild.title = dt.Rows[i]["videotitle"].ToString();
-                        tmpVideoChild.description = dt.Rows[i]["videodescription"].ToString();
-                        tmpVideoMessage.video = tmpVideoChild;
+                        MPNewsSendByMediaID msgMPNews = new MPNewsSendByMediaID();
+                        msgMPNews.safe = 1;
+                        //MessageVideo tmpVideoMessage = new MessageVideo();
+                        //MessageVideoChild tmpVideoChild = new MessageVideoChild();
+                        //tmpVideoChild.media_id = dt.Rows[i]["msgvalue"].ToString();
+                        //tmpVideoChild.title = dt.Rows[i]["videotitle"].ToString();
+                        //tmpVideoChild.description = dt.Rows[i]["videodescription"].ToString();
+                        //tmpVideoMessage.video = tmpVideoChild;
                         txtLog.Info("判断是否有标签过滤。");
                         //如果规则中有标签过滤
                         if (Convert.ToInt32(dt.Rows[i]["rulevalue"]) > 0) {
@@ -144,12 +160,16 @@ namespace BirthdayLunar {
                             foreach (var item in userlistModel.userlist) {
                                 for (int j = 0; j < listUserBirthdayLunar.Count; j++) {
                                     if (listUserBirthdayLunar[j] == item.userid) {
-                                        tmpVideoMessage.touser += listUserBirthdayLunar[j] + "|";
+                                        //tmpVideoMessage.touser += listUserBirthdayLunar[j] + "|";
+                                        msgMPNews.touser += listUserBirthdayLunar[j] + "|";
                                         listUserBirthdayLunar.RemoveAt(j);
                                         continue;
                                     }
                                 }
                             }
+                            MPNewsMediaID mpnewsMediaID = new MPNewsMediaID();
+                            mpnewsMediaID.media_id = dt.Rows[i]["msgvalue"].ToString();
+                            msgMPNews.mpnews = mpnewsMediaID;
                             txtLog.Info("标签用户处理结束。");
                         }
                         //如果规则中无标签过滤
@@ -161,21 +181,30 @@ namespace BirthdayLunar {
                             //    listUserBirthdayLunar.Remove(item2);
                             //}
                             for (int k = 0; k < listUserBirthdayLunar.Count; k++) {
-                                tmpVideoMessage.touser += listUserBirthdayLunar[k] + "|";
+                                //tmpVideoMessage.touser += listUserBirthdayLunar[k] + "|";
+                                msgMPNews.touser += listUserBirthdayLunar[k] + "|";
                                 listUserBirthdayLunar.RemoveAt(k);
                             }
+                            MPNewsMediaID mpnewsMediaID = new MPNewsMediaID();
+                            mpnewsMediaID.media_id = dt.Rows[i]["msgvalue"].ToString();
+                            msgMPNews.mpnews = mpnewsMediaID;
                             txtLog.Info("无标签规则处理结束。");
                         }
                         //如此当前规则没有区配到用户列表，则跳过不添加发送
-                        if (tmpVideoMessage.touser == null | tmpVideoMessage.touser == "")
+                        //if (tmpVideoMessage.touser == null | tmpVideoMessage.touser == "")
+                        if (msgMPNews.touser == null | msgMPNews.touser == "")
                             continue;
                         txtLog.Info("开始前的用户列表：");
-                        txtLog.Info(tmpVideoMessage.touser);
-                        tmpVideoMessage.touser = tmpVideoMessage.touser.Remove(tmpVideoMessage.touser.Length - 1);
+                        //txtLog.Info(tmpVideoMessage.touser);
+                        txtLog.Info(msgMPNews.touser);
+                        //tmpVideoMessage.touser = tmpVideoMessage.touser.Remove(tmpVideoMessage.touser.Length - 1);
+                        msgMPNews.touser = msgMPNews.touser.Remove(msgMPNews.touser.Length - 1);
                         txtLog.Info("处理后：");
-                        txtLog.Info(tmpVideoMessage.touser);
-                        //添加到字典中
-                        tmpSendList.Add(i, tmpVideoMessage);
+                        //txtLog.Info(tmpVideoMessage.touser);
+                        txtLog.Info(msgMPNews.touser);
+                        //将每次循环后的发送规则添加到字典中
+                        //tmpSendList.Add(i, tmpVideoMessage);
+                        tmpSendList.Add(i, msgMPNews);
                         txtLog.Info("第" + i + "次循环数据库结束。");
                     }
                 }
@@ -184,6 +213,7 @@ namespace BirthdayLunar {
                 }
                 txtLog.Info("准备发送消息记录。");
                 //准备发送消息的循环
+
                 foreach (var item in tmpSendList) {
                     txtLog.Info("准备发送的消息：" + JsonConvert.SerializeObject(item.Value));
                     txtLog.Info("Token：" + qyh.access_token);

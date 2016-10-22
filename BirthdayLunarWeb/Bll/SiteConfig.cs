@@ -10,6 +10,18 @@ using System.Data;
 namespace BirthdayLunarWeb.Bll {
     public class SiteConfig {
         /// <summary>
+        /// 更新发送时间
+        /// </summary>
+        /// <param name="sendtime"></param>
+        /// <returns></returns>
+        public static bool SaveSendTime(int sendtime) {
+            string sb = "update siteconfig set sendhour = " + sendtime;
+            int n = SqlDbHelper.ExecuteNonQuery(sb);
+            if (n == 1)
+                return true;
+            return false;
+        }
+        /// <summary>
         /// 获取发送时间
         /// </summary>
         /// <returns>-1：无效</returns>
@@ -21,7 +33,7 @@ namespace BirthdayLunarWeb.Bll {
             return -1;
         }
         /// <summary>
-        /// 检录校验
+        /// 登录校验
         /// </summary>
         /// <param name="strPassword"></param>
         /// <returns></returns>

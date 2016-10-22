@@ -67,6 +67,9 @@
     <Content Include="Admin\Profile.aspx" />
     <Content Include="Admin\RuleAct.aspx" />
     <Content Include="Admin\RuleEdit.aspx" />
+    <Content Include="Admin\SiteConfig.aspx" />
+    <Content Include="Admin\SiteConfigAct.aspx" />
+    <Content Include="Default.aspx" />
     <Content Include="Lib\bootstrap-3.3.5-dist\css\bootstrap-theme.min.css" />
     <Content Include="Lib\bootstrap-3.3.5-dist\css\bootstrap.min.css" />
     <Content Include="Lib\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.svg" />
@@ -121,6 +124,20 @@
     <Compile Include="Admin\SiteAdmin.Master.designer.cs">
       <DependentUpon>SiteAdmin.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\SiteConfig.aspx.cs">
+      <DependentUpon>SiteConfig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\SiteConfig.aspx.designer.cs">
+      <DependentUpon>SiteConfig.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\SiteConfigAct.aspx.cs">
+      <DependentUpon>SiteConfigAct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\SiteConfigAct.aspx.designer.cs">
+      <DependentUpon>SiteConfigAct.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Bll\Log.cs" />
     <Compile Include="Bll\Rule.cs" />
     <Compile Include="Bll\SiteConfig.cs" />
@@ -130,6 +147,13 @@
     </Compile>
     <Compile Include="Admin\Message.aspx.designer.cs">
       <DependentUpon>Message.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Model\Log.cs" />
     <Compile Include="Model\Rule.cs" />
