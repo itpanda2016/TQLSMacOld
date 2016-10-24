@@ -167,6 +167,7 @@
     <Content Include="Lib\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Lib\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Admin\SiteAdmin.Master" />
+    <None Include="Properties\PublishProfiles\TQLS官网.pubxml" />
     <None Include="Properties\PublishProfiles\本地.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
