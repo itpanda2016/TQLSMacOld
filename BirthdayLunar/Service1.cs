@@ -25,7 +25,7 @@ namespace BirthdayLunar {
 
         protected override void OnStart(string[] args) {
             //每隔25分钟检查一次
-            SetTimer(2);
+            SetTimer(15);
             txtLog.Info("\nPress the Enter key to exit the application...\n");
             txtLog.Info(string.Format("The application started at {0:HH:mm:ss.fff}", DateTime.Now));
             //Console.ReadLine();
