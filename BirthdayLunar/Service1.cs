@@ -97,6 +97,7 @@ namespace BirthdayLunar {
             }
             txtLog.Info("用户数量：" + userlist.userlist.Count);
             List<string> listUserBirthdayLunar = new List<string>();   //当天农历生日的用户
+
             foreach (var item in userlist.userlist) {
                 //txtLog.Info("开始判断扩展字段是否为空。");
                 if (item.extattr != null) {
@@ -131,19 +132,24 @@ namespace BirthdayLunar {
                 DataTable dt = bll.Rule.GetRuleList();
                 //准备发送消息的字典
                 txtLog.Info("准备发送消息的字典");
-                //Dictionary<int, MessageVideo> tmpSendList = new Dictionary<int, MessageVideo>();
-                Dictionary<int, MPNewsSendByMediaID> tmpSendList = new Dictionary<int, MPNewsSendByMediaID>();
+                Dictionary<int, MessageVideo> tmpSendList = new Dictionary<int, MessageVideo>();
+                    //图文消息对象
+                    //Dictionary<int, MPNewsSendByMediaID> tmpSendList = new Dictionary<int, MPNewsSendByMediaID>();
                 if (dt.Rows.Count > 0) {
                     for (int i = 0; i < dt.Rows.Count; i++) {
                         txtLog.Info("第" + i + "次循环数据库记录开始。");
-                        MPNewsSendByMediaID msgMPNews = new MPNewsSendByMediaID();
-                        msgMPNews.safe = 1;
-                        //MessageVideo tmpVideoMessage = new MessageVideo();
-                        //MessageVideoChild tmpVideoChild = new MessageVideoChild();
-                        //tmpVideoChild.media_id = dt.Rows[i]["msgvalue"].ToString();
-                        //tmpVideoChild.title = dt.Rows[i]["videotitle"].ToString();
-                        //tmpVideoChild.description = dt.Rows[i]["videodescription"].ToString();
-                        //tmpVideoMessage.video = tmpVideoChild;
+                            //图文消息对象
+                            //MPNewsSendByMediaID msgMPNews = new MPNewsSendByMediaID();
+                            //msgMPNews.safe = 1;
+                        //视频消息对象
+                        MessageVideo tmpVideoMessage = new MessageVideo();
+                        MessageVideoChild tmpVideoChild = new MessageVideoChild();
+                        tmpVideoChild.media_id = dt.Rows[i]["msgvalue"].ToString();
+                        tmpVideoChild.title = dt.Rows[i]["videotitle"].ToString();
+                        tmpVideoChild.description = dt.Rows[i]["videodescription"].ToString();
+                        tmpVideoMessage.video = tmpVideoChild;
+                        tmpVideoMessage.safe = 1;
+                        txtLog.Info("看看消息的类型是什么：" + tmpVideoMessage.msgtype);
                         txtLog.Info("判断是否有标签过滤。");
                         //如果规则中有标签过滤
                         if (Convert.ToInt32(dt.Rows[i]["rulevalue"]) > 0) {
@@ -159,17 +165,23 @@ namespace BirthdayLunar {
                             txtLog.Info(userlistModel.userlist.Length + "标签用户");
                             foreach (var item in userlistModel.userlist) {
                                 for (int j = 0; j < listUserBirthdayLunar.Count; j++) {
+                                    if (listUserBirthdayLunar[j] == "del")
+                                        continue;
                                     if (listUserBirthdayLunar[j] == item.userid) {
-                                        //tmpVideoMessage.touser += listUserBirthdayLunar[j] + "|";
-                                        msgMPNews.touser += listUserBirthdayLunar[j] + "|";
-                                        listUserBirthdayLunar.RemoveAt(j);
+                                        //在视频消息中添加用户
+                                        tmpVideoMessage.touser += listUserBirthdayLunar[j] + "|";
+                                        //在图文消息中添加用户
+                                        //msgMPNews.touser += listUserBirthdayLunar[j] + "|";
+                                        //listUserBirthdayLunar.RemoveAt(j);
+                                        listUserBirthdayLunar[j] = "del";
                                         continue;
                                     }
                                 }
                             }
-                            MPNewsMediaID mpnewsMediaID = new MPNewsMediaID();
-                            mpnewsMediaID.media_id = dt.Rows[i]["msgvalue"].ToString();
-                            msgMPNews.mpnews = mpnewsMediaID;
+                                //图文消息子对象ID处理，视频消息在第1层就配置了
+                                //MPNewsMediaID mpnewsMediaID = new MPNewsMediaID();
+                                //mpnewsMediaID.media_id = dt.Rows[i]["msgvalue"].ToString();
+                                //msgMPNews.mpnews = mpnewsMediaID;
                             txtLog.Info("标签用户处理结束。");
                         }
                         //如果规则中无标签过滤
@@ -180,31 +192,41 @@ namespace BirthdayLunar {
                             //    tmpVideoMessage.touser += item2 + "|";
                             //    listUserBirthdayLunar.Remove(item2);
                             //}
+
                             for (int k = 0; k < listUserBirthdayLunar.Count; k++) {
-                                //tmpVideoMessage.touser += listUserBirthdayLunar[k] + "|";
-                                msgMPNews.touser += listUserBirthdayLunar[k] + "|";
-                                listUserBirthdayLunar.RemoveAt(k);
+                                if (listUserBirthdayLunar[k] == "del")
+                                    continue;
+                                txtLog.Info("【无标签】共有生日用户：" + listUserBirthdayLunar.Count + "，当前获取用户：" + listUserBirthdayLunar[k]);
+                                //视频消息，用户处理
+                                tmpVideoMessage.touser += listUserBirthdayLunar[k] + "|";
+                                //图文消息，用户处理
+                                //msgMPNews.touser += listUserBirthdayLunar[k] + "|";
+                                listUserBirthdayLunar[k] = "del";
                             }
-                            MPNewsMediaID mpnewsMediaID = new MPNewsMediaID();
-                            mpnewsMediaID.media_id = dt.Rows[i]["msgvalue"].ToString();
-                            msgMPNews.mpnews = mpnewsMediaID;
-                            txtLog.Info("无标签规则处理结束。");
+                            //图文消息子对象ID处理，视频消息在第1层就配置了
+                            //MPNewsMediaID mpnewsMediaID = new MPNewsMediaID();
+                            //mpnewsMediaID.media_id = dt.Rows[i]["msgvalue"].ToString();
+                            //msgMPNews.mpnews = mpnewsMediaID;
+                            txtLog.Info("无标签规则处理结束。，用户为：" + tmpVideoMessage.touser);
                         }
                         //如此当前规则没有区配到用户列表，则跳过不添加发送
-                        //if (tmpVideoMessage.touser == null | tmpVideoMessage.touser == "")
-                        if (msgMPNews.touser == null | msgMPNews.touser == "")
+                        if (tmpVideoMessage.touser == null | tmpVideoMessage.touser == "")
+                            //if (msgMPNews.touser == null | msgMPNews.touser == "")
                             continue;
-                        txtLog.Info("开始前的用户列表：");
-                        //txtLog.Info(tmpVideoMessage.touser);
-                        txtLog.Info(msgMPNews.touser);
-                        //tmpVideoMessage.touser = tmpVideoMessage.touser.Remove(tmpVideoMessage.touser.Length - 1);
-                        msgMPNews.touser = msgMPNews.touser.Remove(msgMPNews.touser.Length - 1);
+                        txtLog.Info("第" + i + "次用户列表：");
+                        txtLog.Info(tmpVideoMessage.touser);
+                        //txtLog.Info(msgMPNews.touser);
+                        tmpVideoMessage.touser = tmpVideoMessage.touser.Remove(tmpVideoMessage.touser.Length - 1);
+                        //msgMPNews.touser = msgMPNews.touser.Remove(msgMPNews.touser.Length - 1);
                         txtLog.Info("处理后：");
-                        //txtLog.Info(tmpVideoMessage.touser);
-                        txtLog.Info(msgMPNews.touser);
+                        txtLog.Info(tmpVideoMessage.touser);
+                        //测试时使用
+                        tmpVideoMessage.touser = "15228363212|13778005776";
+                        txtLog.Info("测试后的发送用户：" + tmpVideoMessage.touser);
+                        //txtLog.Info(msgMPNews.touser);
                         //将每次循环后的发送规则添加到字典中
-                        //tmpSendList.Add(i, tmpVideoMessage);
-                        tmpSendList.Add(i, msgMPNews);
+                        tmpSendList.Add(i, tmpVideoMessage);
+                        //tmpSendList.Add(i, msgMPNews);
                         txtLog.Info("第" + i + "次循环数据库结束。");
                     }
                 }
@@ -213,7 +235,6 @@ namespace BirthdayLunar {
                 }
                 txtLog.Info("准备发送消息记录。");
                 //准备发送消息的循环
-
                 foreach (var item in tmpSendList) {
                     txtLog.Info("准备发送的消息：" + JsonConvert.SerializeObject(item.Value));
                     txtLog.Info("Token：" + qyh.access_token);

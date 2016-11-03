@@ -3,6 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript">
         $(function () {
+            $("#divVideo").fadeIn().show();
+            $("#divMpnews").fadeOut().hide();
             $("#fm").submit(function () {
                 if ($("#rulename").val() == "") {
                     alert("规则名称不能为空。");
@@ -23,6 +25,16 @@
         })
         function CheckMsgType(e) {
             //alert($(e).attr("value"));
+            if ($(e).attr("value") == "video") {
+                $("#divVideo").fadeIn().show();
+                $("#divMpnews").fadeOut().hide();
+            } else {
+                $("#divVideo").fadeOut().hide();
+                $("#divMpnews").fadeIn().show();
+            }
+        }
+        function DivTog() {
+
         }
     </script>
 </asp:Content>
@@ -55,14 +67,14 @@
             if (mCount != null) {
         %>
         <div class="radio">
-            <label class="radio-inline">
+            <%--            <label class="radio-inline">
                 <input onclick="CheckMsgType(this)" type="radio" checked="checked" name="msgtyle" value="mpnews" <%if (mCount.mpnews_count == 0) { %> disabled="disabled" <%} %> />
                 图文（<%=mCount.mpnews_count %>）
-            </label>
-            <%--            <label class="radio-inline">
-                <input type="radio" name="msgtyle" value="video" <%if (mCount.video_count == 0) { %> disabled="disabled" <%} %> />
-                视频（<%=mCount.video_count %>）
             </label>--%>
+            <label class="radio-inline">
+                <input onclick="CheckMsgType(this)" type="radio" checked="checked" name="msgtyle" value="video" <%if (mCount.video_count == 0) { %> disabled="disabled" <%} %> />
+                视频（<%=mCount.video_count %>）
+            </label>
         </div>
         <%
             }
@@ -71,11 +83,44 @@
                 <label>消息内容</label>
                 <textarea class="form-control" rows="4" cols="15" name="msgvalue"></textarea>
             </div>--%>
-        <div id="divMpnews">
+        <div id="divVideo">
+            <%
+                if (mList.itemlist.Length > 0) {
+            %>
+            <select class="form-control" name="msgvalue">
+                <%
+                    foreach (var item in mList.itemlist) {
+                        if (rule.MsgValue == item.media_id) {
+                %>
+                <option selected="selected" value="<%=item.media_id %>"><%=item.filename %>（上传时间：<%=General.UnixTimeToTime(item.update_time.ToString()) %>）</option>
+                <%
+                    }
+                    else {
+                %>
+                <option value="<%=item.media_id %>"><%=item.filename %>（上传时间：<%=General.UnixTimeToTime(item.update_time.ToString()) %>）</option>
+                <%
+                        }
+                    }
+                %>
+            </select>
+            <%
+                }
+            %>
+
+            <div class="form-inline">
+                <label>消息标题</label>
+                <input type="text" class="form-control" name="videotitle" maxlength="128" id="videotitle" value="<%=rule.VideoTitle %>" />
+            </div>
+            <div class="form-inline">
+                <label>消息描述</label>
+                <textarea class="form-control" rows="4" cols="55" name="videodescription" id="videodescription" maxlength="512"><%=rule.VideoDescription %></textarea>
+            </div>
+        </div>
+<%--        <div id="divMpnews">
             <%
                 if (mpnewsList.itemlist.Length > 0) {
             %>
-            <select class="form-control" name="msgvalue" id="msgvalue">
+            <select class="form-control" name="msgvalue">
                 <%
                     foreach (var item in mpnewsList.itemlist) {
                         if (rule.MsgValue == item.media_id) {
@@ -86,56 +131,13 @@
                 <option value="<%=item.media_id %>"><%=item.content.articles[0].title %></option>
                 <%
                     } %>
-                <!--下面这一段直接放在发送消息那儿去获取，这儿不要-->
-                <%--                    <%
-                        foreach (var itemChild in item.content.articles) {
-                    %>
-                    <label id="mpnewsID"><%=itemChild.title %></label>
-                    <%
-                        }
-                    %>--%>
-
                 <%
                     }
                 %>
             </select>
             <%
                 } %>
-        </div>
-
-        <!--视频注释开始
-        <div id="divOther" class="form-inline">
-            <label>选择消息</label>
-            <select class="form-control" name="msgvalue" id="msgvalue22">
-                <option value="0">--请选择--</option>
-                <%
-            if (mList.errcode == 0) {
-                foreach (var item in mList.itemlist) {
-                    if (rule != null && rule.MsgValue == item.media_id) {
-                %>
-                <option selected="selected" value="<%=item.media_id %>">上传时间：<%=Common.Utility.UnixTimeToTime(item.update_time.ToString()).ToString("yyyy-MM-dd hh:mm:ss") %>|文件名：<%=item.filename %></option>
-
-                <%
-            }
-            else {
-                %>
-                <option value="<%=item.media_id %>">上传时间：<%=Common.Utility.UnixTimeToTime(item.update_time.ToString()).ToString("yyyy-MM-dd hh:mm:ss") %>|文件名：<%=item.filename %></option>
-                <%--<option value="2veOFPHPB2oJJ-SFdMF9UoYQkMnJf8gBGHde2huXkZ_syoA3P75D6RxoQCL5AeuPfGhE89AnOZDSyGTQBhnHxtA">消息ID</option>--%>
-                <%
-                    }
-                }
-            } %>
-            </select>
-        </div>
-        <div class="form-inline">
-            <label>消息标题</label>
-            <input type="text" class="form-control" name="videotitle" maxlength="128" id="videotitle" value="<%=rule.VideoTitle %>" />
-        </div>
-        <div class="form-inline">
-            <label>消息描述</label>
-            <textarea class="form-control" rows="4" cols="55" name="videodescription" id="videodescription" maxlength="512"><%=rule.VideoDescription %></textarea>
-        </div>
-        视频暂时注释end-->
+        </div>--%>
 
         <hr />
         <div id="filter" class="form-inline">

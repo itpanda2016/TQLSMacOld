@@ -8,7 +8,6 @@ using qyhModel = Model.QYH;
 using qyhBLL = BLL.QYH;
 using System.Configuration;
 using Newtonsoft.Json;
-using Common;
 
 namespace BirthdayLunarWeb.Admin {
     public partial class RuleEdit : System.Web.UI.Page {
@@ -21,6 +20,8 @@ namespace BirthdayLunarWeb.Admin {
         public qyhModel.TagList tagList = new qyhModel.TagList();
         public qyhModel.MaterialCount mCount = new qyhModel.MaterialCount();
         public qyhModel.MPNews mpnewsList = new qyhModel.MPNews();
+        public Dictionary<string, object> item = new Dictionary<string, object>();
+        
         protected void Page_Load(object sender, EventArgs e) {
             mgs.type = "video";
             mgs.offset = 0;
@@ -35,10 +36,12 @@ namespace BirthdayLunarWeb.Admin {
                 //获取视频
                 string strRet = qyhBLL.Material.GetMaterialListPermanent(qyh.access_token, mgs);
                 mList = JsonConvert.DeserializeObject<qyhModel.MaterialListPermanent>(strRet);
+                item.Add("video", mList);
                 //获取图文
                 mgs.type = "mpnews";
                 string mpnewsRet = qyhBLL.Material.GetMaterialListPermanent(qyh.access_token,mgs);
                 mpnewsList = JsonConvert.DeserializeObject<qyhModel.MPNews>(mpnewsRet);
+                item.Add("mpnews", mpnewsList);
 
                 strRet = qyhBLL.Tag.GetTagList(qyh.access_token);
                 tagList = JsonConvert.DeserializeObject<qyhModel.TagList>(strRet);

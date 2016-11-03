@@ -38,7 +38,7 @@
                 <td><%# Eval("id") %></td>
                 <td><%# Eval("rulename") %></td>
                 <td><%# Eval("msgtype") %></td>
-                <td><%# Eval("msgvalue") %></td>
+                <td></td>
                 <td><%# Eval("ruletype") %></td>
                 <td><%# Eval("rulevalue") %></td>
                 <td><%# Eval("rank") %></td>
