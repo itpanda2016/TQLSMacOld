@@ -5,7 +5,7 @@ using System.Web;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
-using Common;
+using FROST.Utility;
 
 namespace BirthdayLunarWeb.Bll {
     /// <summary>
@@ -19,7 +19,7 @@ namespace BirthdayLunarWeb.Bll {
         public static Dictionary<int,DateTime> GetLogList() {
             StringBuilder sb = new StringBuilder();
             sb.Append("select id,sendtime rom logs");
-            DataTable dt = SqlDbHelper.ExecuteDataTable(sb.ToString());
+            DataTable dt = MsSQLHelper.ExecuteDataTable(sb.ToString());
             Dictionary<int, DateTime> dict = new Dictionary<int, DateTime>();
             if (dt.Rows.Count > 0) {
                 foreach (DataRow item in dt.Rows) {
@@ -35,9 +35,9 @@ namespace BirthdayLunarWeb.Bll {
         /// <param name="dt">农历日期</param>
         /// <returns>True:有，false：无</returns>
         public static bool CheckHasSend(DateTime dt) {
-            string d = dt.Year + "/" +string.Format("{0:00}",dt.Month) + "/" + dt.Day;
+            string d = dt.Year + "/" +string.Format("{0:00}",dt.Month) + "/" + string.Format("{0:00}",dt.Day);
             string sb = "select count(*) from logs where CONVERT(VARCHAR(32),sendtime,111) like '" + d + "%'";
-            int n = Convert.ToInt32(SqlDbHelper.ExecuteScalar(sb));
+            int n = Convert.ToInt32(MsSQLHelper.ExecuteScalar(sb));
             if (n > 0)
                 return true;
             return false;
@@ -54,7 +54,7 @@ namespace BirthdayLunarWeb.Bll {
             SqlParameter[] paras = {
                 new SqlParameter("@sendtime",log.SendTime)
             };
-            int n = SqlDbHelper.ExecuteNonQuery(sb.ToString(), CommandType.Text, paras);
+            int n = MsSQLHelper.ExecuteNonQuery(sb.ToString(), CommandType.Text, paras);
             if (n == 1)
                 return true;
             return false;

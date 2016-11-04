@@ -15,10 +15,11 @@ namespace TEST {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            string d1 = "1967-02-29".Remove(0,5);
-            string d2 = "2016-02-29".Remove(0,5);
-            MessageBox.Show(d1 + "|" + d2);
-            MessageBox.Show((d1 == d2).ToString()); 
+            MessageBox.Show(DateTime.Now.Year + "/" + string.Format("{0:00}", DateTime.Now.Month) + "/" + DateTime.Now.Day);
+            //string d1 = "1967-02-29".Remove(0,5);
+            //string d2 = "2016-02-29".Remove(0,5);
+            //MessageBox.Show(d1 + "|" + d2);
+            //MessageBox.Show((d1 == d2).ToString()); 
             //MessageBox.Show(calendarChineseLunisolarToSolar("1967-02-29"));
         }
         /// <summary>

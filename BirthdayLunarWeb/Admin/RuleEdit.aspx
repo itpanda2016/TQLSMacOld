@@ -60,7 +60,6 @@
             </select>
             <span class="alert-danger">权重越小，优先级越高，系统发送消息时，会从权重值小的开始匹配规则。</span>
         </div>
-        <%--<p class="alert alert-info">权重越小，优先级越高，系统发送消息时，会从权重值小的开始匹配规则。</p>--%>
         <hr />
         <label>消息类型</label>
         <%
@@ -79,10 +78,6 @@
         <%
             }
         %>
-        <%--<div id="divText">
-                <label>消息内容</label>
-                <textarea class="form-control" rows="4" cols="15" name="msgvalue"></textarea>
-            </div>--%>
         <div id="divVideo">
             <%
                 if (mList.itemlist.Length > 0) {
@@ -142,10 +137,6 @@
         <hr />
         <div id="filter" class="form-inline">
             <label>指定标签</label>
-            <%--<select class="form-control" name="ruletype">
-                    <option value="0">--请选择--</option>
-                    <option value="tag">标签</option>
-                </select>--%>
             <select class="form-control" name="rulevalue">
                 <option value="0">--请选择--</option>
                 <%
@@ -163,7 +154,6 @@
                             }
                         }
                     } %>
-                <%--<option value="20">大客户标签</option>--%>
             </select>
         </div>
         <div class="form-inline">
