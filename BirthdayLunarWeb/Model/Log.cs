@@ -10,5 +10,9 @@ namespace BirthdayLunarWeb.Model {
         }
         public int ID { set; get; }
         public DateTime SendTime { set; get; }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { set; get; }
     }
 }

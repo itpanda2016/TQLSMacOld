@@ -9,9 +9,11 @@ using System.Text;
 
 namespace BirthdayLunarWeb.Admin {
     public partial class SiteAdmin : System.Web.UI.MasterPage,IRequiresSessionState {
+        public string actMenu = "";
         protected void Page_Load(object sender, EventArgs e) {
             if (Session["loginid"] == null)
                 Response.Redirect("Login.aspx");
+            actMenu = Request.Url.ToString();
         }
     }
     

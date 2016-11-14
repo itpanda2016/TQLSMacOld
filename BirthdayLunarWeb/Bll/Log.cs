@@ -16,17 +16,20 @@ namespace BirthdayLunarWeb.Bll {
         /// 获取发送记录列表
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<int,DateTime> GetLogList() {
+        public static DataTable GetLogList() {
             StringBuilder sb = new StringBuilder();
-            sb.Append("select id,sendtime rom logs");
+            sb.Append("select id,sendtime,remark from logs");
             DataTable dt = MsSQLHelper.ExecuteDataTable(sb.ToString());
-            Dictionary<int, DateTime> dict = new Dictionary<int, DateTime>();
-            if (dt.Rows.Count > 0) {
-                foreach (DataRow item in dt.Rows) {
-                    dict.Add(Convert.ToInt32(item["id"]), Convert.ToDateTime(item["sendtime"]));
-                }
-                return dict;
-            }
+            //不知道当时为什么要写成字典，现在改回来   --20161114
+            //Dictionary<int, DateTime> dict = new Dictionary<int, DateTime>();
+            //if (dt.Rows.Count > 0) {
+            //    foreach (DataRow item in dt.Rows) {
+            //        dict.Add(Convert.ToInt32(item["id"]), Convert.ToDateTime(item["sendtime"]));
+            //    }
+            //    return dict;
+            //}
+            if (dt.Rows.Count > 0)
+                return dt;
             return null;
         }
         /// <summary>
@@ -53,6 +56,24 @@ namespace BirthdayLunarWeb.Bll {
             sb.Append("insert into logs (sendtime) values (@sendtime)");
             SqlParameter[] paras = {
                 new SqlParameter("@sendtime",log.SendTime)
+            };
+            int n = MsSQLHelper.ExecuteNonQuery(sb.ToString(), CommandType.Text, paras);
+            if (n == 1)
+                return true;
+            return false;
+        }
+        /// <summary>
+        /// 添加发送日志，附带备注信息
+        /// </summary>
+        /// <param name="remark"></param>
+        /// <returns></returns>
+        public static bool Add(string remark) {
+            Model.Log log = new Model.Log();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("insert into logs (sendtime,remark) values (@sendtime,@remark)");
+            SqlParameter[] paras = {
+                new SqlParameter("@sendtime",log.SendTime),
+                new SqlParameter("@remark",remark)
             };
             int n = MsSQLHelper.ExecuteNonQuery(sb.ToString(), CommandType.Text, paras);
             if (n == 1)

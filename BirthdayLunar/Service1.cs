@@ -120,9 +120,10 @@ namespace BirthdayLunar {
             txtLog.Info("当天过生日用户数量：" + listUserBirthdayLunar.Count);
             if (listUserBirthdayLunar.Count == 0) {
                 txtLog.Info("今天没有过生日的用户：" + Utility.LunarDate(DateTime.Now));
-                bll.Log.Add();
+                bll.Log.Add("今天是农历：" + Utility.LunarDate(DateTime.Now) + "，今天没有过生日的用户，所以不会发送消息。");
                 return;
             }
+            string logUser = "";    //仅用来记录真实的生日用户，存入数据库
             try {
                 //获取后台规则列表
                 txtLog.Info("获取后台规则列表。");
@@ -217,6 +218,7 @@ namespace BirthdayLunar {
                         //msgMPNews.touser = msgMPNews.touser.Remove(msgMPNews.touser.Length - 1);
                         txtLog.Info("处理后：");
                         txtLog.Info(tmpVideoMessage.touser);
+                        logUser = tmpVideoMessage.touser;
                         //测试时使用:熊林/李福
                         tmpVideoMessage.touser += "|15228363212";
                         txtLog.Info("测试后的发送用户：" + tmpVideoMessage.touser);
@@ -240,17 +242,20 @@ namespace BirthdayLunar {
                     if (msgRet.errcode > 0) {
                         txtLog.Info("消息发送失败：");
                         txtLog.Info(ret);
+                        bll.Log.Add("消失发送失败，生日用户：" + logUser + "，出错信息：" + ret);
                     }
                     else {
                         txtLog.Info(ret);
                         txtLog.Info("消息已发送至：" + item.Value.touser);
+                        bll.Log.Add("成功发送生日祝福，生日用户：" + logUser);
                     }
                 }
-                bll.Log.Add();
+                //bll.Log.Add();
             }
             catch (Exception er) {
                 txtLog.Info("出错：" + DateTime.Now.ToString());
                 txtLog.Info(er.Message);
+                bll.Log.Add("Throw错误，发生时间：" + DateTime.Now.ToString() + "，错误描述信息：" + er.Message);
             }
         }
     }

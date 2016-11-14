@@ -30,9 +30,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="Main.aspx">首页<span class="sr-only">(current)</span></a></li>
-        <li><a href="RuleEdit.aspx">添加规则</a></li>
-        <li><a href="SiteConfig.aspx">系统设置</a></li>
+        <li <%if (actMenu.IndexOf("Main.aspx") >= 0) { %> class="active" <% }%>><a href="Main.aspx">首页<span class="sr-only">(current)</span></a></li>
+        <li <%if (actMenu.IndexOf("RuleEdit.aspx") >= 0) { %> class="active" <% }%>><a href="RuleEdit.aspx">添加规则</a></li>
+        <li <%if (actMenu.IndexOf("SiteConfig.aspx") >= 0) { %> class="active" <% }%>><a href="SiteConfig.aspx">系统设置</a></li>
+        <li <%if (actMenu.IndexOf("Log.aspx") >= 0) { %> class="active" <% }%>><a href="Log.aspx">发送日志</a></li>
       </ul>
 <%--      <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
